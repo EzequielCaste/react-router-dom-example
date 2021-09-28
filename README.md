@@ -115,6 +115,17 @@ El <NavLink> es un tipo especial de <Link> que puede cambiar de estilo cuando es
 
 
 
+## React Router Hooks
+
+React Router trae un par de hooks que nos permiten acceder al estado del router y realizar navegación desde dentro de nuestros componentes.
+
+- useHistory
+- useLocation
+- useParams
+- useRouteMatch
+
+
+
 ## Rutas con parámetros
 
 Utilizamos el hook `useParams` para acceder a las partes dinámicas de la URL.
@@ -142,24 +153,59 @@ const ProfilePage() {
 
 ## Rutas con parámetros de tipo Query
 
-El hook `useLocation` nos devuelve el objeto **location** que representa la URL actual. Puedes imaginarlo como un `useState` que devuelve un nuevo **location** cada vez que cambie la URL.
+Para poder leer los parámetros de búsqueda (query values) que nos llegan desde la URL tenemos que usar los hooks de **React Router** y una API nativa del navegador: `URLSearchParams`
+
+Primero necesitamos acceder a la URL actual, para esto React Router nos proporciona con el hook `useLocation`. Este hook nos devuelve un objeto **location** que representa la URL actual. Puedes imaginarlo como un `useState` que devuelve un nuevo **location** cada vez que cambie la URL.
 
 ```jsx
 const location = useLocation();	
 ```
 
+El ojecto **location** tiene dos propiedades importantes: pathname y search:
+
+- `pathname` es el nombre de la ruta 
+- `search` son los parámetros de búsqueda (query string).
+
 ```js
 // Ejemplo: http://localhost:3000/categories?skip=0&limit=10
-
 {
   pathname: "/categories",
   search: "?skip=0&limit=10"
 }	
 ```
 
+Ahora para poder usar la API `URLSearchParams` tenemos que pasar como argumento los parámetros de búsqueda (query string) que están en **location.search**
 
+```jsx
+const query = new URLSearchParams(location.search);
+```
 
+Una vez que tenemos el objeto **query** del tipo `URLSearchParams` podemos utilizar los métodos que nos proporciona para recuperar la información.
 
+```js
+const skip = parseInt(query.get('skip'));
+const limit = parseInt(query.get('limit'));
+```
+
+Existen otros métodos para las instancias de `URLSearchParams`, puedes leer sobre ellos [aquí](https://developer.mozilla.org/es/docs/Web/API/URLSearchParams).
+
+Ahora que tenemos los parámetros de la búsqueda podemos actualizarlos con el método `query.set(name, value)` que recibe como argumento el nombre del parámetro a establecer y el valor de ese parámetro.
+
+```js
+query.set('skip', skip + 5);
+```
+
+Para poder reflejar estos cambios en la URL de nuestro navegador usamos el hook `useHistory` que nos da acceso a la instancia `history` que podemos usar para navegar por la aplicación. 
+
+```js
+const history = useHistory();
+
+history.push({
+ search: query.toString()
+})
+```
+
+Puedes consultar el resto de las propiedades y métodos del objeto **history** [aquí](https://reactrouter.com/web/api/history).
 
 
 
