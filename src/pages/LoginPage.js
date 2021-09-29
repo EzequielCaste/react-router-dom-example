@@ -11,7 +11,7 @@ const LoginPage = () => {
 
   const handleLogin = () => {
     auth.login();
-    history.push(previousURLObject)
+    history.push(previousURLObject || "/dashboard")
   }
   return (
     <div>

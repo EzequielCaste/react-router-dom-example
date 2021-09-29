@@ -27,29 +27,45 @@ export const Navbar = () => {
             Categories
           </NavLink>
         </li>
-        <li>
-          <NavLink to="/login" activeClassName="active">
-            Login
-          </NavLink>
-        </li>
-        <li>
-          <NavLink to="/register" activeClassName="active">
-            Register
-          </NavLink>
-        </li>
-        <li>
-          <NavLink to="/dashboard" activeClassName="active">
-            Dashboard
-          </NavLink>
-        </li>
-        <li>
-          <NavLink to="/payments" activeClassName="active">
-            Payments
-          </NavLink>
-        </li>
-        <li>
-          <button onClick={auth.logout}>Logout</button>
-        </li>
+        {
+          !auth.isLogged() && (
+            <>
+              <li>
+                <NavLink to="/login" activeClassName="active">
+                  Login
+                </NavLink>
+              </li>
+              <li>
+                <NavLink to="/register" activeClassName="active">
+                  Register
+                </NavLink>
+              </li>            
+            </>
+          )
+        }
+        {
+          auth.isLogged() && (
+          <>
+            <li>
+              <NavLink to="/dashboard" activeClassName="active">
+                Dashboard
+              </NavLink>
+            </li>
+            <li>
+              <NavLink to="/payments" activeClassName="active">
+                Payments
+              </NavLink>
+            </li>          
+          </>
+          )
+        }
+        {
+          auth.isLogged() && (
+            <li>
+              <button onClick={auth.logout}>Logout</button>
+            </li>
+          )
+        }
       </ul>
     </nav>
   )

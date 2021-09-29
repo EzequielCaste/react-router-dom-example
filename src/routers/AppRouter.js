@@ -11,6 +11,7 @@ import PaymentsPage from '../pages/PaymentsPage'
 import { ProfilePage } from '../pages/ProfilePage'
 import RegisterPage from '../pages/RegisterPage'
 import { PrivateRoute } from './PrivateRoute'
+import { PublicRoute } from './PublicRoute'
 
 const AppRouter = () => {
   return (
@@ -23,8 +24,8 @@ const AppRouter = () => {
         <Route path="/profile/:username" component={ProfilePage} />
         <Route path="/categories" component={CategoriesPage} />
         
-        <Route path="/login" component={LoginPage} />
-        <Route path="/register" component={RegisterPage} />
+        <PublicRoute path="/login" component={LoginPage} />
+        <PublicRoute path="/register" component={RegisterPage} />
 
         <PrivateRoute path="/dashboard" component={DashboardPage} />
         <PrivateRoute path="/payments" component={PaymentsPage} />
